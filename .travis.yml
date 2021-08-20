@@ -1,1 +1,40 @@
-os: osx
+os: linux
+
+jobs:
+  include:
+    - name: Test webapp
+      language: node_js
+      node_js: 16
+      script:
+        - cd web 
+        - npm install
+        - npm test -- --watchAll=false --testResultsProcessor="jest-junit"
+
+    - name: Build webapp
+      language: node_js
+      node_js: 16
+      script:
+        - cd web
+        - npm install
+        - npm run build
+      #deploy:
+      #  provider: s3
+      #  access_key_id: ""
+      #  secret_access_key: ""
+      #  bucket: "arn:aws:s3:::artefacts-dump"
+      #  skip_cleanup: true
+      #  local_dir: build
+
+    - name: Build plugin
+      language: cpp
+      compiler: clang
+      os: osx
+      install: cmake -S . -B "build"
+      script: cmake --build ./build --config Release
+      #deploy:
+      #  provider: s3
+      #  access_key_id: ""
+      #  secret_access_key: ""
+      #  bucket: "arn:aws:s3:::artefacts-dump"
+      #  skip_cleanup: true
+      #  local_dir: build
