@@ -5,6 +5,9 @@ jobs:
     - name: Test webapp
       language: node_js
       node_js: 16
+      cache:
+        directories:
+          - web/node_modules
       script:
         - cd web 
         - npm install
@@ -13,6 +16,9 @@ jobs:
     - name: Build webapp
       language: node_js
       node_js: 16
+      cache:
+        directories:
+          - web/node_modules
       script:
         - cd web
         - npm install
