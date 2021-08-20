@@ -17,13 +17,14 @@ jobs:
         - cd web
         - npm install
         - npm run build
-      #deploy:
-      #  provider: s3
-      #  access_key_id: ""
-      #  secret_access_key: ""
-      #  bucket: "arn:aws:s3:::artefacts-dump"
-      #  skip_cleanup: true
-      #  local_dir: build
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep_history: true
+        local_dir: web/build
+        on:
+          branch: main
 
     - name: Build plugin
       language: cpp
