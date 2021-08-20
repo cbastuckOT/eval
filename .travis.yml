@@ -20,15 +20,16 @@ jobs:
       deploy:
         provider: pages
         skip_cleanup: true
-        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        github_token: $GITHUB_TOKEN
         keep_history: true
         local_dir: web/build
         on:
           branch: main
 
-    - name: Build plugin
+    - name: Build MacOS plugin 
       language: cpp
       compiler: clang
+      osx_image: xcode12.5
       os: osx
       install: cmake -S . -B "build"
       script: cmake --build ./build --config Release
@@ -39,3 +40,9 @@ jobs:
       #  bucket: "arn:aws:s3:::artefacts-dump"
       #  skip_cleanup: true
       #  local_dir: build
+
+    - name: Build Windows plugin
+      language: cpp
+      os: windows
+      install: cmake -S . -B "build"
+      script: cmake --build ./build --config Release
